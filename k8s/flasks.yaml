@@ -57,7 +57,7 @@ spec:
   - port: 3050
     targetPort: 3000
     protocol: TCP
-    nodePort: 31000  # access port from host machine
+#     nodePort: 31000  # access port from host machine
 
 # Port exposes the Kubernetes service on the specified port within the cluster. 
 # Other pods within the cluster can communicate with this server on the specified port.
@@ -139,13 +139,14 @@ metadata:
   labels:
     app: call-you-app
 spec:
-  # type: NodePort
+  type: NodePort
   selector:
     app: call-you-app
   ports:
     - protocol: TCP
       port: 80
       targetPort: 5000
+      nodePort: 33333
       name: http
 # status:
 #   loadBalancer:
