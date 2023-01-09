@@ -1,63 +1,4 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  #the Deployment Name
-  name: demo-react-app
-spec:
-  #the Number of Pods
-  replicas: 2
-  selector:
-    matchLabels:
-      app: demo-react-app
-  template:
-    metadata:
-      labels:
-        app: demo-react-app
-    spec:
-      # Container Details
-      containers:
-      - name: demo-react-app
-        # Docker Image
-        image: sean840411/react-sean
-        resources:
-         #cpu and memory limit
-          limits:
-            memory: "550Mi"
-            cpu: "500m"
-        # imagePullPolicy: Never # use this to avoid pull error when pulling from local docker registry
-        # ports:
-        # # the port on which the app can be reached out inside the container
-        # - containerPort: 80
 
-
-        # mount values from coonfig-map.yaml" to pd filesystem, to access it ssh into the pod
-        # and read values from /etc/config-map/keys
-        volumeMounts:
-        - name: foo
-          mountPath: "/etc/config-map"
-          readOnly: true
-      volumes:
-      - name: foo
-        configMap:
-          name: example-configmap 
-
----
-#service 
-apiVersion: v1
-kind: Service
-metadata:
-   #the Serivce Name- it should match with the lable name of the deployment 
-  name: demo-react-app
-spec:
-  # type of the service
-  type: NodePort
-  selector:
-    app: demo-react-app
-  ports:
-  - port: 3050
-    targetPort: 3000
-    protocol: TCP
-#     nodePort: 31000  # access port from host machine
 
 # Port exposes the Kubernetes service on the specified port within the cluster. 
 # Other pods within the cluster can communicate with this server on the specified port.
@@ -79,7 +20,7 @@ spec:
 ##############################################################################################################################
 ##############################################################################################################################
 
---- # flask config
+# flask config
 apiVersion: v1
 kind: Service
 metadata:
